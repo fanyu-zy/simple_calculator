@@ -1,51 +1,51 @@
 #include <iostream>
 #include <cctype> //isdigit()
 #include <cstring>//strcpy() 
-//»ù´¡¶¨Òå£¬¼ÆËãÊ½Ôİ¶¨³¤¶È80
+//åŸºç¡€å®šä¹‰ï¼Œè®¡ç®—å¼æš‚å®šé•¿åº¦80
 using std::cin;
 using std::cout;
 using std::endl;
 using namespace std;
 const int  MAX(80); 
  
-//º¯ÊıÉùÃ÷ 
-void delspaces(char*);		//É¾³ı¿Õ¸ñµÄº¯Êı
-char* pro_kh(char* str, int& index);//·µ»ØÀ¨ºÅÄÚ×Ö·û´® 
-double get_tw(char* str, int& index);//À¨ºÅ´¦Àí ÊıÖµ¼ÆËã 
+//å‡½æ•°å£°æ˜ char* å­—ç¬¦ä¸² int&å¼•ç”¨å˜é‡
+void delspaces(char* exp);		//åˆ é™¤ç©ºæ ¼çš„å‡½æ•°
+char* pro_kh(char* str, int& index);//è¿”å›æ‹¬å·å†…å­—ç¬¦ä¸² 
+double get_tw(char* str, int& index);//æ‹¬å·å¤„ç† æ•°å€¼è®¡ç®— 
 double calc(char* str);		// + - 
 double get_cc(char* str, int& index);// * / 
 
 int main()
 {
 	char expression[MAX] = {0};
-	cout <<"\t¼òÒ×¼ÆËãÆ÷£¨simple calculator£©\n"
-		"----------------³ÌĞòËµÃ÷------------------\n"
-		"     Ö§³ÖÕûÊıºÍĞ¡Êı»ìºÏÔËËã£¬Ö§³ÖÀ¨ºÅ\n"
-		"    Ö§³Ö¼Ó(+)¼õ(-)³Ë(*)³ı(/)ËÄÔò»ìºÏÔËËã\n"
-		"  ×¢:¸ºÊıÇëµ¥¶ÀÓÃ()À¨ÆğÀ´£¬()ÇëÊ¹ÓÃÓ¢ÎÄÀ¨ºÅ\n"
-		"         ÊäÈë´íÎó±í´ïÊ½³ÌĞò½«ÍË³ö\n"
-		"      Ê¹ÓÃ»Ø³µÍË³ö£¬½öÖ§³Ö"<<MAX<<"¸ö×Ö\n"
-		"      ÊäÈë·¶Àı£º((-21)*3+23)/2+20.20-07.09\n" 
+	cout <<"\tç®€æ˜“è®¡ç®—å™¨ï¼ˆsimple calculatorï¼‰\n"
+		"----------------ç¨‹åºè¯´æ˜------------------\n"
+		"     æ”¯æŒæ•´æ•°å’Œå°æ•°æ··åˆè¿ç®—ï¼Œæ”¯æŒæ‹¬å·\n"
+		"    æ”¯æŒåŠ (+)å‡(-)ä¹˜(*)é™¤(/)å››åˆ™æ··åˆè¿ç®—\n"
+		"  æ³¨:è´Ÿæ•°è¯·å•ç‹¬ç”¨()æ‹¬èµ·æ¥ï¼Œ()è¯·ä½¿ç”¨è‹±æ–‡æ‹¬å·\n"
+		"         è¾“å…¥é”™è¯¯è¡¨è¾¾å¼ç¨‹åºå°†é€€å‡º\n"
+		"      ä½¿ç”¨å›è½¦é€€å‡ºï¼Œä»…æ”¯æŒ"<<MAX<<"ä¸ªå­—\n"
+		"      è¾“å…¥èŒƒä¾‹ï¼š((-21)*3+23)/2+20.20-07.09\n" 
 		"------------------------------------------"
 		<<endl;
 		
-	for(;;)//Ñ­»·¶ÁÈ¡£¬Îª¿ÕÍË³ö 
+	for(;;)//å¾ªç¯è¯»å–ï¼Œä¸ºç©ºé€€å‡º 
    {
-   		cout<<"ÇëÊäÈëËãÊ½£¨Ê¹ÓÃ»Ø³µÍË³ö£©£º"<<endl;
+   		cout<<"è¯·è¾“å…¥ç®—å¼ï¼ˆä½¿ç”¨å›è½¦é€€å‡ºï¼‰ï¼š"<<endl;
       	cin.getline(expression, sizeof expression);  
       	delspaces(expression);
  
      	if(!expression[0])
         	return 0;
- 		cout<<"¼ÆËãµÃ£º"<<expression
+ 		cout<<"è®¡ç®—å¾—ï¼š"<<expression
 		 <<" = " <<calc(expression)<<endl;
    }
 	system("pause");
     return 0;
 }
-void delspaces(char* exp)//É¾³ı¿Õ¸ñ
+void delspaces(char* exp)//åˆ é™¤ç©ºæ ¼
 {
-	int i=0,j=0;//Îª¿Õ¸´ÖÆºóÒ»Ïî£¬²»Îª¿ÕÍùºó×ß 
+	int i=0,j=0;//ä¸ºç©ºå¤åˆ¶åä¸€é¡¹ï¼Œä¸ä¸ºç©ºå¾€åèµ° 
 	while (*(exp+i) != '\0') 
 	{
 		*(exp + i) = *(exp + j++);
@@ -54,18 +54,18 @@ void delspaces(char* exp)//É¾³ı¿Õ¸ñ
 	}
 	return;
 }
-char* pro_kh(char* str, int& index)//²ğÀ¨ºÅ 
+char* pro_kh(char* str, int& index)//æ‹†æ‹¬å· 
 {
-	char buffer[MAX];//¾Ö²¿Êı×é
+	char buffer[MAX];//å±€éƒ¨æ•°ç»„
 	char* pstr(nullptr);
-	int numcount=0,bufindex=index;//¼ÆÊıÆ÷(0½áÊø1¼ÌĞøÌ×ÍŞ) ÆğÊ¼Î»ÖÃ 
-	do//»ñÈ¡À¨ºÅÄÚ×Ö·û´®£¬Ö±µ½×îºóÒ»¸ö×Ö·û 
+	int numcount=0,bufindex=index;//è®¡æ•°å™¨(0ç»“æŸ1ç»§ç»­å¥—å¨ƒ) èµ·å§‹ä½ç½® 
+	do//è·å–æ‹¬å·å†…å­—ç¬¦ä¸²ï¼Œç›´åˆ°æœ€åä¸€ä¸ªå­—ç¬¦ 
 	{
 		buffer[index - bufindex] = *(str + index); 
 		switch (buffer[index- bufindex])
 		{
 		case ')':
-			if (0 == numcount)//µ½´ï×îºóÒ»¸öÓÒÀ¨ºÅ£¬´´½¨ĞÂ×Ö·û´®·µ»Ø 
+			if (0 == numcount)//åˆ°è¾¾æœ€åä¸€ä¸ªå³æ‹¬å·ï¼Œåˆ›å»ºæ–°å­—ç¬¦ä¸²è¿”å› 
 			{
 				buffer[index - bufindex] = '\0';
 				++index;
@@ -73,7 +73,7 @@ char* pro_kh(char* str, int& index)//²ğÀ¨ºÅ
 				strcpy(pstr,buffer);
 				return pstr;
 			}
-			else//Î´µ½µ×¼ÌĞøÌ×ÍŞ 
+			else//æœªåˆ°åº•ç»§ç»­å¥—å¨ƒ 
 			{
 				numcount--;
 				break;
@@ -84,22 +84,22 @@ char* pro_kh(char* str, int& index)//²ğÀ¨ºÅ
 		}
 	} while (*(str + index++) != '\0');
 }
-double get_tw(char* str, int& index)//ÊıÖµ»ñÈ¡,Ì×ÍŞ¹Ø¼ü 
-{//·µ»Ø´Óµ±Ç°²Ù×÷·ûµ½ÏÂÒ»¸ö²Ù×÷·ûÖ®¼äµÄÊı×ÖµÄÖµ£¬²¢°ÑindexµİÔöµ½ÏÂÒ»¸ö²Ù×÷·ûµÄË÷ÒıÎ»ÖÃ 
+double get_tw(char* str, int& index)//æ•°å€¼è·å–,å¥—å¨ƒå…³é”® 
+{//è¿”å›ä»å½“å‰æ“ä½œç¬¦åˆ°ä¸‹ä¸€ä¸ªæ“ä½œç¬¦ä¹‹é—´çš„æ•°å­—çš„å€¼ï¼Œå¹¶æŠŠindexé€’å¢åˆ°ä¸‹ä¸€ä¸ªæ“ä½œç¬¦çš„ç´¢å¼•ä½ç½® 
 	double value=0.0;
-	char opname[6];//¶¨Òå²Ù×÷·û´óĞ¡
+	char czf[6];//å®šä¹‰æ“ä½œç¬¦å¤§å°
 	int ip = 0,k=0;
 	while (isalpha(*(str+index))) 
-		opname[ip++] = *(str + index++);
-	opname[ip] = '\0';//Ìí¼Ó½áÎ²
-	if (opname[0] != '\0')//Ì×ÍŞÀ¨ºÅ¼ÆËã ,×¢ÒâÖ¸ÕëÓĞ½èÓĞ»¹ 
+		czf[ip++] = *(str + index++);
+	czf[ip] = '\0';//æ·»åŠ ç»“å°¾
+	if (czf[0] != '\0')//å¥—å¨ƒæ‹¬å·è®¡ç®— ,æ³¨æ„æŒ‡é’ˆæœ‰å€Ÿæœ‰è¿˜ 
 	{
-		char* numberexp = pro_kh(str, ++index);
-		value = calc(numberexp);
-		delete[] numberexp;
+		char* cshstr = pro_kh(str, ++index);
+		value = calc(cshstr);
+		delete[] cshstr;
 		return value;
 	}
-	if (*(str + index) == '(') //À¨ºÅÄÚÈİ£¬Èç¹ûÊÇ¸ºÊıÖ±½Ó×Ö·û´®×ªÊı×Ö 
+	if (*(str + index) == '(') //æ‹¬å·å†…å®¹ï¼Œå¦‚æœæ˜¯è´Ÿæ•°ç›´æ¥å­—ç¬¦ä¸²è½¬æ•°å­— 
 	{
 		char* psubstr(nullptr);
 		psubstr = pro_kh(str, ++index);
@@ -111,13 +111,12 @@ double get_tw(char* str, int& index)//ÊıÖµ»ñÈ¡,Ì×ÍŞ¹Ø¼ü
 			value = calc(psubstr);
 		delete[]psubstr;
 		return value;
-		
 	}
 	if (isdigit(*(str + index))==false) 
 	{
 		exit(1); 
 	}
-	while (isdigit(*(str + index)))//Êı×Ö´¦Àí£¬Á¬Ğø´Ó×óÍùÓÒ£¬ÓĞĞ¡Êıµã×Ô³ËÍ³Ò»µ¥Î» 
+	while (isdigit(*(str + index)))//æ•°å­—å¤„ç†ï¼Œè¿ç»­ä»å·¦å¾€å³ï¼Œæœ‰å°æ•°ç‚¹è‡ªä¹˜ç»Ÿä¸€å•ä½ 
 		value = value * 10 + (*(str + index++) - '0');
 	if (*(str + index) != '.')
 		return value;
@@ -129,8 +128,8 @@ double get_tw(char* str, int& index)//ÊıÖµ»ñÈ¡,Ì×ÍŞ¹Ø¼ü
 	}
 	return value;
  }
-double get_cc(char* str, int& index)//³Ë³ıÏî¼ÆËã 
-{ //´¦ÀíºóÒÆ¶¯µ½ÏÂ¸öÔËËã²Ù×÷·û 
+double get_cc(char* str, int& index)//ä¹˜é™¤é¡¹è®¡ç®— 
+{ //å¤„ç†åç§»åŠ¨åˆ°ä¸‹ä¸ªè¿ç®—æ“ä½œç¬¦ 
 	double value(0.0);
 	value = get_tw(str, index);
 	while (true)
@@ -144,7 +143,7 @@ double get_cc(char* str, int& index)//³Ë³ıÏî¼ÆËã
 	}
 	return value;
 }
-double calc(char* str)//»ù´¡Ïî¼Ó¼õ 
+double calc(char* str)//åŸºç¡€é¡¹åŠ å‡ 
 {
 	double value(0.0);
 	int index = 0;
