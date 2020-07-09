@@ -9,7 +9,7 @@ using namespace std;
 const int  MAX(80);
 
 //函数声明 
-void delspaces(char*);		//删除空格的函数
+void delspaces(char* exp);		//删除空格的函数
 char* pro_kh(char* str, int& index);//返回括号内字符串 
 double get_tw(char* str, int& index);//括号处理 数值计算 
 double calc(char* str);		// + - 
@@ -70,8 +70,7 @@ char* pro_kh(char* str, int& index)//拆括号
 				buffer[index - bufindex] = '\0';
 				++index;
 				pstr = new char[index - bufindex];
-				strcpy_s(pstr, index - bufindex, buffer);
-				//strcpy(pstr, buffer);
+				strcpy_s(pstr, index - bufindex, buffer);//strcpy(pstr, buffer);
 				return pstr;
 			}
 			else//未到底继续套娃 
@@ -82,22 +81,25 @@ char* pro_kh(char* str, int& index)//拆括号
 		case '(':
 			numcount++;
 			break;
+		default:
+			break;
 		}
 	} while (*(str + index++) != '\0');
+	return pstr;
 }
 double get_tw(char* str, int& index)//数值获取,套娃关键 
 {//返回从当前操作符到下一个操作符之间的数字的值，并把index递增到下一个操作符的索引位置 
 	double value = 0.0;
-	char opname[6];//定义操作符大小
+	char czf[6],s;//定义操作符大小
 	int ip = 0, k = 0;
 	while (isalpha(*(str + index)))
-		opname[ip++] = *(str + index++);
-	opname[ip] = '\0';//添加结尾
-	if (opname[0] != '\0')//套娃括号计算 ,注意指针有借有还 
+		czf[ip++] = *(str + index++);
+	czf[ip] = '\0';//添加结尾
+	if (czf[0] != '\0')//套娃括号计算 ,注意指针有借有还 
 	{
-		char* numberexp = pro_kh(str, ++index);
-		value = calc(numberexp);
-		delete[] numberexp;
+		char* cshstr = pro_kh(str, ++index);
+		value = calc(cshstr);
+		delete[] cshstr;
 		return value;
 	}
 	if (*(str + index) == '(') //括号内容，如果是负数直接字符串转数字 
@@ -118,15 +120,19 @@ double get_tw(char* str, int& index)//数值获取,套娃关键
 	{
 		exit(1);
 	}
-	while (isdigit(*(str + index)))//数字处理，连续从左往右，有小数点自乘统一单位 
-		value = value * 10 + (*(str + index++) - '0');
+	while (isdigit(*(str + index)))//数字处理，连续从左往右，有小数点自乘统一单位
+	{
+		s = *(str + index++) - '0';
+		value = value * 10 + s;
+	}
 	if (*(str + index) != '.')
 		return value;
 	double tydw = 1.0;
 	while (isdigit(*(str + (++index))))
 	{
+		s = *(str + index) - '0';
 		tydw = tydw * 0.1;
-		value = value + (*(str + index) - '0') * tydw;
+		value = value + s * tydw;
 	}
 	return value;
 }

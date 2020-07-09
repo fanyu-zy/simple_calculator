@@ -1,3 +1,2 @@
 ﻿  calculator.cpp
-F:\forgit\gitrep\simple_calculator\VS\calculator\calculator.cpp(87): warning C4715: “pro_kh”: 不是所有的控件路径都返回值
   calculator.vcxproj -> F:\forgit\gitrep\simple_calculator\VS\calculator\Debug\calculator.exe
